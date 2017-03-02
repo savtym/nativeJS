@@ -1,0 +1,17 @@
+{
+  "name": "app",
+  "description": "application for create/remove/update users and companies",
+  "main": "index.js",
+  "authors": [
+    "savtym"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/savtym/users",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
