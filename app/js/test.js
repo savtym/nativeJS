@@ -1,5 +1,8 @@
-import {TapeMachine} from "./codes.js";
+import {User} from "./Model/user.js";
+import {Company} from "./Model/company.js";
 
-const tp = new TapeMachine();
-tp.record("Hello... Hellooooo!!! Helloooooo!!!!!");
-tp.play();
+
+const user = new User();
+const company = new Company();
+console.log(company, user);
+console.log(user.id);
