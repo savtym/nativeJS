@@ -40,20 +40,6 @@ gulp.task('img', function() {
     .pipe(connect.reload());
 })
 
-//css
-gulp.task('css', function() {
-  return gulp.src(['./app/**/*.css'])
-    .pipe(gulp.dest('./build'))
-    .pipe(connect.reload());
-})
-
-//fonts
-gulp.task('fonts', function() {
-  return gulp.src(['./app/fonts/*.*'])
-    .pipe(gulp.dest('./build/fonts/'))
-    .pipe(connect.reload());
-})
-
 
 //babel
 const babel = require('gulp-babel');
@@ -71,15 +57,14 @@ gulp.task('js', function() {
 gulp.task('libs', function() {
   return gulp.src([
     'node_modules/systemjs/dist/system.js',
-    'node_modules/babel-polyfill/dist/polyfill.js',
-    'bower_components/bootstrap/dist/js/bootstrap.min.js'])
+    'node_modules/babel-polyfill/dist/polyfill.js'])
     .pipe(gulp.dest('./build/libs'))
 		.pipe(connect.reload());
 });
 
 
 //build
-gulp.task('build', ['js', 'libs', 'less', 'html', 'img', 'fonts', 'css'], function(){
+gulp.task('build', ['js', 'libs', 'less', 'html', 'img'], function(){
   return gulp.src('./build/**/*.*') //min img, css, js
     .pipe(gulp.dest('./dist'));
 });
@@ -102,9 +87,7 @@ gulp.task('watch', function() {
   gulp.watch(['./app/**/*.less'], ['less']);
   gulp.watch(['./app/**/*.js'], ['js']);
   gulp.watch(['./app/**/*.img'], ['img']);
-  gulp.watch(['./app/**/*.css'], ['css']);
-  gulp.watch(['./app/fonts/*.*'], ['fonts']);
 });
 
 //default
-gulp.task('default', ['connect', 'html', 'js', 'css', 'fonts', 'libs', 'less', 'img', 'watch']);
+gulp.task('default', ['connect', 'html', 'js', 'libs', 'less', 'img', 'watch']);
