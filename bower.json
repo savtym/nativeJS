@@ -7,6 +7,10 @@
   ],
   "license": "ISC",
   "homepage": "https://github.com/savtym/users",
+  "dependencies": {
+    "jquery": "1.9.1",
+    "bootstrap": "^3.3.7"
+  },
   "ignore": [
     "**/.*",
     "node_modules",

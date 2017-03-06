@@ -1,8 +1,5 @@
-import {User} from "./Model/user.js";
-import {Company} from "./Model/company.js";
+import {AppController} from "./appController.js";
+import $ from '../libs/jquery.js';
 
-
-const user = new User();
-const company = new Company();
-console.log(company, user);
-console.log(user.id);
+const appController = new AppController();
+console.log(appController.getData());
