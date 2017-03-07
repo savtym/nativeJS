@@ -11,31 +11,29 @@ export class ModelController {
   }
 
   getUsers() {
-    this.users = this.jsonpGet(GET_USERS_API, this.users, function(data) {
-      let users = [];
-      data.forEach(function(user) {
-        users.push(new User(
+    this.jsonpGet(GET_USERS_API, this, function(data, self) {
+      data.forEach((user) => {
+        self.users.push(new User(
           user.id,
           user.name,
           user.email,
-          user.userName,
+          user.username,
           user.address,
           user.phone,
           user.website,
           user.company
         ));
       });
-      return users;
+      console.log(self);
     });
   }
 
-  jsonpGet(url, object, callback) {
+  jsonpGet(url, self, callback) {
     var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
     window[callbackName] = function(data) {
       delete window[callbackName];
       document.body.removeChild(script);
-      object = callback(data);
-      debugger;
+      callback(data, self);
     };
     var script = document.createElement('script');
     script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;

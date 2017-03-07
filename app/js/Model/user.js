@@ -27,6 +27,7 @@ export class User extends BaseEntity {
   }
 
   set userName(userName) {
+  	debugger
   	const regex = /^[a-zA-Z\-]+$/;
   	let result = false;
     if (regex.test(userName)) {

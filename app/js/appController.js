@@ -4,13 +4,13 @@ import {BaseEntity} from './Model/baseEntity.js';
 import {ModelController} from './modelController.js';
 import {ViewController} from './viewController.js';
 
-
-
 export class AppController {
   static start() {
   	let model = new ModelController();
-  	let view = new ViewController();
-  	model.getUsers();
-  	console.log(this.model);
+  	let view = new ViewController(model);
+  	console.log(model.getUsers());
+    console.log('test');
   }
+
+
 }

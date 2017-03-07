@@ -4,7 +4,10 @@ import {Company} from './Model/company.js'
 import {AppController} from './modelController.js';
 
 export class ViewController {
-  constructor() {
+  constructor(model) {
+  	this.model = model;
   }
+
+  
 
 }
