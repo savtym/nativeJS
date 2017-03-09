@@ -2,9 +2,9 @@
 // company.js
 //
 
-import {BaseEntity} from "./baseEntity.js";
+import BaseEntity from "./baseEntity";
 
-export class Company extends BaseEntity {
+export default class Company extends BaseEntity {
   constructor(id, name, email, usersId, createdAt, catchPhrase, bs) {
   	super(email, name, id);
   	this.usersId = usersId;

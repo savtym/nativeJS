@@ -1,3 +1,7 @@
+//
+// eventEmiter.js
+//
+
 let isFunction = function(obj) {
   return typeof obj == 'function' || false;
 };

@@ -2,9 +2,9 @@
 // user.js
 //
 
-import {BaseEntity} from "./baseEntity.js";
+import BaseEntity from "./baseEntity";
 
-export class User extends BaseEntity {
+export default class User extends BaseEntity {
   constructor(id, name, email, userName, address, phone, website, company) {
   	super(email, name, id);
   	this.userName = userName;

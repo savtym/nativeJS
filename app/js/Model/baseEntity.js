@@ -2,7 +2,7 @@
 // baseEntity.js
 //
 
-export class BaseEntity {
+export default class BaseEntity {
   constructor(email = 'default@gmail.com', name = 'Default', id = 0) {
   	this.id = id;
   	this.name = name;

@@ -1,9 +1,12 @@
-import {User} from './Model/user.js';
-import {Company} from './Model/company.js';
-import {BaseEntity} from './Model/baseEntity.js';
+import User from './Model/user';
+import Company from './Model/company';
+import BaseEntity from './Model/baseEntity';
+
+import {EventEmitter} from "./Common/eventEmitter";
+import {Cookie} from "./Common/cookie";
+
 import {ModelController} from './modelController.js';
 import {ViewController} from './viewController.js';
-import {EventEmitter} from "./Model/eventEmitter.js";
 
 export class AppController {
   static start() {
@@ -15,8 +18,6 @@ export class AppController {
   	this.view = new ViewController(this.model);
     this.model.getUsers();
     this.model.getCompanies();
-    console.log('test');
-
   }
 
   static onChangeModelUsers(user) {
@@ -24,7 +25,7 @@ export class AppController {
   }
 
   static onChangeModelCompanies(data) {
-    console.log(data);
+    // console.log(data);
   }
 
 
