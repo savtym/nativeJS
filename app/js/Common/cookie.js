@@ -31,7 +31,7 @@ export class Cookie {
     return JSON.parse(cookies[name]);
   }
 
-  setCookie(name, value, options = {
+  static setCookie(name, value, options = {
     expires: 3600
   }) {
     let expires = options.expires;
@@ -47,7 +47,6 @@ export class Cookie {
     }
 
     value = encodeURIComponent(JSON.stringify(value));
-      debugger
     let updatedCookie = `${name}=${value}`;
 
     for (let propName in options) {
@@ -61,7 +60,7 @@ export class Cookie {
     document.cookie = updatedCookie;
   }
 
-  deleteCookie(name) {
+  static deleteCookie(name) {
     this.setCookie(name, '');
   }
 

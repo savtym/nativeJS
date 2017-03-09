@@ -22,6 +22,7 @@ export class AppController {
 
   static onChangeModelUsers(user) {
     this.view.createRowForUsers(user);
+    Cookie.setCookie(this.model.cookieForUsers, user);
   }
 
   static onChangeModelCompanies(data) {

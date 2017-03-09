@@ -19,7 +19,7 @@ export class ModelController {
   getUsers() {
     let data = Cookie.getCookies(COOKIE_USERS);
     if (data.length === 0) {
-      this._jsonpGet(GET_USERS_API, this, COOKIE_USERS, addUsers);
+      this._jsonpGet(GET_USERS_API, this, addUsers);
     } else {
       addUsers(data, this);
     }
@@ -43,7 +43,9 @@ export class ModelController {
   }
 
   getCompanies() {
-    this._jsonpGet(GET_COMPANIES_API, this, function(data, self) {
+    this._jsonpGet(GET_COMPANIES_API, this, addCompanies);
+
+    function addCompanies(data, self) {
       data.forEach((company) => {
         self.companies.push(new Company(
           company.id,
@@ -56,16 +58,23 @@ export class ModelController {
         ));
         self.observe.emit('changeModelCompanies', self.companies[self.companies.length - 1]);
       });
-    });
+    }
   }
 
-  _jsonpGet(url, self, cookieName, callback) {
+  static get cookieForUsers() {
+    return COOKIE_USERS;
+  }
+
+  static get cookieForCompanies() {
+    return COOKIE_COMPANIES;
+  }
+
+  _jsonpGet(url, self, callback) {
     var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
     window[callbackName] = function(data) {
       delete window[callbackName];
       document.body.removeChild(script);
       callback(data, self);
-      Cookie.setCookie(cookieName);
     };
     var script = document.createElement('script');
     script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
