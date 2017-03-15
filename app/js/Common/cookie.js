@@ -20,15 +20,16 @@ import Company from '../Model/company.js';
 
 export class Cookie {
   constructor() {
+    //expeception for new object
   }
 
   static getCookies(name) {
-    var cookies = {};
+    let cookies = {};
     for (let cookie of document.cookie.split('; ')) {
       let [name, value] = cookie.split('=');
       cookies[name] = decodeURIComponent(value);
     }
-    return JSON.parse(cookies[name]);
+    return cookies[name] ? JSON.parse(cookies[name]) : [];
   }
 
   static setCookie(name, value, options = {

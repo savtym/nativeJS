@@ -10,7 +10,8 @@ export class EventEmitter {
   constructor() {
     this.listeners = new Map();
   }
-  addListener(label, callback) {
+
+  addListener(label, callback) { //label => eventName (notification)
     this.listeners.has(label) || this.listeners.set(label, []);
     this.listeners.get(label).push(callback);
   }

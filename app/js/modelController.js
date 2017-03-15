@@ -6,6 +6,7 @@ import {Cookie} from "./Common/cookie";
 
 const GET_USERS_API = 'http://www.mocky.io/v2/58aaea261000003f114b637d';
 const GET_COMPANIES_API = 'http://www.mocky.io/v2/58aaf32410000050114b63a6';
+
 const COOKIE_USERS = 'users';
 const COOKIE_COMPANIES = 'companies';
 
@@ -17,16 +18,9 @@ export class ModelController {
   }
 
   getUsers() {
-    let data = Cookie.getCookies(COOKIE_USERS);
-    if (data.length === 0) {
-      this._jsonpGet(GET_USERS_API, this, addUsers);
-    } else {
-      addUsers(data, this);
-    }
-
-    function addUsers(data, self) {
+    const addUsers = (data) => {
       data.forEach((user) => {
-        self.users.push(new User(
+        const newUser = new User(
           user.id,
           user.name || user._name,
           user.email || user._email,
@@ -35,19 +29,25 @@ export class ModelController {
           user.phone || user._phone,
           user.website || user._website,
           user.companyId || user.company || 0
-        ));
-        self.observe.emit('changeModelUsers', self.users[self.users.length - 1]);
+        );
+        this.users.push(newUser);
+        this.observe.emit('changeModelUsers', newUser);
       });
     }
 
+    const data = Cookie.getCookies(COOKIE_USERS);
+
+    if (data.length) {
+      addUsers(data, this);
+    } else {
+      this._jsonpGet(GET_USERS_API, addUsers);
+    }
   }
 
   getCompanies() {
-    this._jsonpGet(GET_COMPANIES_API, this, addCompanies);
-
-    function addCompanies(data, self) {
+    const addCompanies = (data) => {
       data.forEach((company) => {
-        self.companies.push(new Company(
+        const newCompany = new Company(
           company.id,
           company.name,
           company.email,
@@ -55,10 +55,13 @@ export class ModelController {
           company.createdAt,
           company.catchPhrase,
           company.bs
-        ));
-        self.observe.emit('changeModelCompanies', self.companies[self.companies.length - 1]);
+        );
+        this.companies.push(newCompany);
+        this.observe.emit('changeModelCompanies', newCompany);
       });
     }
+
+    this._jsonpGet(GET_COMPANIES_API, addCompanies);
   }
 
   static get cookieForUsers() {
@@ -69,14 +72,14 @@ export class ModelController {
     return COOKIE_COMPANIES;
   }
 
-  _jsonpGet(url, self, callback) {
-    var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+  _jsonpGet(url, callback) {
+    let callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
     window[callbackName] = function(data) {
       delete window[callbackName];
       document.body.removeChild(script);
-      callback(data, self);
+      callback(data);
     };
-    var script = document.createElement('script');
+    let script = document.createElement('script');
     script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
     document.body.appendChild(script);
   }

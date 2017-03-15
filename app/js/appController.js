@@ -26,7 +26,7 @@ export class AppController {
   }
 
   static onChangeModelCompanies(data) {
-    // console.log(data);
+    console.log(data);
   }
 
 
