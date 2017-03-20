@@ -2,29 +2,11 @@
 
 const gulp = require('gulp');
 const autoprefixer = require('gulp-autoprefixer');
-const rename = require("gulp-rename");
 
 /* autoprefixer for version browsers */
 const autoprefixerLastVersion = "> 1%";
 const autoprefixerIEVersion = "IE 8";
 
-//less
-const less = require('gulp-less');
-const path = require('path');
-
-gulp.task('less', function() {
-  return gulp.src('./app/**/*.less')
-    .pipe(less({
-      paths: [ path.join(__dirname, 'less', 'includes') ]
-    }))
-    .pipe(autoprefixer({
-      browsers: [autoprefixerLastVersion, autoprefixerIEVersion],
-      cascade: false
-    }))
-    .pipe(rename({dirname: ''}))
-    .pipe(gulp.dest('./build/css'))
-    .pipe(connect.reload());
-});
 
 //html
 gulp.task('html', function() {
@@ -32,6 +14,17 @@ gulp.task('html', function() {
     .pipe(gulp.dest('build'))
 		.pipe(connect.reload());
 })
+
+/* scss */
+
+const sass = require('gulp-sass');
+
+gulp.task('scss', function () {
+    return gulp.src('./scss/main.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./app/css'))
+        .pipe(connect.reload());
+});
 
 //img
 gulp.task('img', function() {
@@ -46,12 +39,21 @@ const babel = require('gulp-babel');
 const expect = require('gulp-expect-file');
 
 gulp.task('js', function() {
-  return gulp.src('./app/**/*.js') 
+  return gulp.src('./app/scrips/**/*.js')
     .pipe(babel({ presets: ['es2015'] }))
     .pipe(gulp.dest('./build'))
     .pipe(expect('./app/**/*.js'))
 		.pipe(connect.reload());
 });
+
+gulp.task('jsComponent', function() {
+    return gulp.src('./app/**/**/*.js')
+        .pipe(babel({ presets: ['es2015'] }))
+        .pipe(gulp.dest('./build'))
+        .pipe(expect('./app/**/*.js'))
+        .pipe(connect.reload());
+});
+
 
 //libs js
 gulp.task('libs', function() {
@@ -84,10 +86,11 @@ gulp.task('connect', function() {
 //watch
 gulp.task('watch', function() {
   gulp.watch(['./app/**/*.html'], ['html']);
-  gulp.watch(['./app/**/*.less'], ['less']);
-  gulp.watch(['./app/**/*.js'], ['js']);
+  gulp.watch(['./app/**/*.scss'], ['scss']);
+    gulp.watch(['./app/scripts/**/*.js'], ['js']);
+    gulp.watch(['./app/**/*.js'], ['jsComponent']);
   gulp.watch(['./app/**/*.img'], ['img']);
 });
 
 //default
-gulp.task('default', ['connect', 'html', 'js', 'libs', 'less', 'img', 'watch']);
+gulp.task('default', ['connect', 'html', 'js', 'jsComponent', 'libs', 'scss', 'img', 'watch']);

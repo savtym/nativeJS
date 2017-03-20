@@ -1,18 +1,19 @@
-import User from './Model/user';
-import Company from './Model/company';
-import BaseEntity from './Model/baseEntity';
+import {EventEmitter} from "Common/eventEmitter";
+import {Cookie} from "Common/cookie";
 
-import {EventEmitter} from "./Common/eventEmitter";
-import {Cookie} from "./Common/cookie";
-
-import {ModelController} from './modelController.js';
+import {ModelController} from 'modelController.js';
 import {ViewController} from './viewController.js';
+
+import Component from './View/parse';
 
 export class AppController {
   static start() {
   	let observe = new EventEmitter();
     observe.addListener('changeModelUsers', (data) => this.onChangeModelUsers(data));
     observe.addListener('changeModelCompanies', (data) => this.onChangeModelCompanies(data));
+
+    let component = new Component(document);
+    component.pars();
 
   	this.model = new ModelController(observe);
   	this.view = new ViewController(this.model);
