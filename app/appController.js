@@ -1,12 +1,19 @@
-import {EventEmitter} from "Common/eventEmitter";
-import {Cookie} from "Common/cookie";
+import {EventEmitter} from "./js/Common/eventEmitter";
+import {Cookie} from "./js/Common/cookie";
 
-import {ModelController} from 'modelController.js';
-import {ViewController} from './viewController.js';
+import {ModelController} from './js/modelController';
+import {ViewController} from './js/viewController';
 
-import Component from './View/parse';
+import Component from './js/View/parse';
 
 export class AppController {
+
+  static init(settings) {
+    debugger;
+    this.settings = JSON.parse(settings);
+    this.start();
+  }
+
   static start() {
   	let observe = new EventEmitter();
     observe.addListener('changeModelUsers', (data) => this.onChangeModelUsers(data));
@@ -30,5 +37,13 @@ export class AppController {
     console.log(data);
   }
 
+  static _parsingSettings(path) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', path, true);
+    xhr.onreadystatechange = (data) => {
+      debugger
+    };
+    xhr.send();
+  }
 
 }
