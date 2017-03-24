@@ -11,7 +11,10 @@ export default class Parse {
   }
 
   pars() {
-    debugger
+    for (let component of this.components) {
+      console.log(new component);
+      // debugger
+    }
   }
 
   parsComponents() {

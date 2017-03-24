@@ -2,14 +2,15 @@
 *   content.js
 */
 
+import Native from '../../../js/Common/native';
+import myText from './content.html!text';
 
 const nameComponent = 'content';
 
-export default class Content {
-  constructor() {
-  }
 
-  static get nameComponent() {
-    return nameComponent;
+export default class Content extends Native {
+  constructor() {
+    super(nameComponent);
+    console.log(myText);
   }
 }
