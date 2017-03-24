@@ -1,10 +1,10 @@
 import {EventEmitter} from "./js/Common/eventEmitter";
 import {Cookie} from "./js/Common/cookie";
+import Router from './js/View/router';
 
-import {ModelController} from './js/modelController';
-import {ViewController} from './js/viewController';
+// import {ModelController} from './js/modelController';
+// import {ViewController} from './js/viewController';
 
-import Component from './js/View/parse';
 
 export class AppController {
 
@@ -19,13 +19,12 @@ export class AppController {
     observe.addListener('changeModelUsers', (data) => this.onChangeModelUsers(data));
     observe.addListener('changeModelCompanies', (data) => this.onChangeModelCompanies(data));
 
-    let component = new Component(document);
-    component.pars();
+    Router.start();
 
-  	this.model = new ModelController(observe);
-  	this.view = new ViewController(this.model);
-    this.model.getUsers();
-    this.model.getCompanies();
+    // this.model = new ModelController(observe);
+    // this.view = new ViewController(this.model);
+    // this.model.getUsers();
+    // this.model.getCompanies();
   }
 
   static onChangeModelUsers(user) {

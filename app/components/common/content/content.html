@@ -1,3 +1,13 @@
 <div class="c-content">
+  ${this.name}
+
+  <ul class="dogs">
+    ${
+      this.dogs.map(
+        dog =>
+          `<li>${dog.name} is ${dog.age * 7}</li>`
+        )
+    }
+  </ul>
 
 </div>

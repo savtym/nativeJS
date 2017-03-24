@@ -3,14 +3,26 @@
 */
 
 import Native from '../../../js/Common/native';
-import myText from './content.html!text';
+import dom from './content.html!html';
 
 const nameComponent = 'content';
 
 
 export default class Content extends Native {
+
   constructor() {
-    super(nameComponent);
-    console.log(myText);
+    super(nameComponent, dom);
+    this.name = 'fdsf';
+    this.dogs = [
+      { name: 'Snickers', age: 2 },
+      { name: 'Hugo', age: 8 },
+      { name: 'Sunny', age: 1 }
+    ];
+
+    console.log(this.getHTML());
+  }
+
+  static get nameComponent() {
+    return nameComponent;
   }
 }

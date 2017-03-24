@@ -11,13 +11,17 @@ export default class Parse {
   }
 
   pars() {
-    for (let component of this.components) {
-      console.log(new component);
-      // debugger
+    // this.app.innerHTML = '';
+    for (let Component of this.components) {
+      // console.log(this.app.getElementsByTagName(elem.nameComponent)[0].appendChild(elem.getHTML()));
     }
+    console.log(Components.isComponent('content'));
   }
 
-  parsComponents() {
+  parsComponent() {
 
   }
+
+
+
 }

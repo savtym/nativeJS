@@ -42,7 +42,7 @@ gulp.task('js', function() {
   return gulp.src('./app/scrips/**/*.js')
     .pipe(babel({ presets: ['es2015'] }))
     .pipe(gulp.dest('./build'))
-    .pipe(expect('./app/**/*.js'))
+    // .pipe(expect('./app/**/*.js'))
 		.pipe(connect.reload());
 });
 
@@ -50,7 +50,7 @@ gulp.task('jsComponent', function() {
     return gulp.src('./app/**/**/*.js')
         .pipe(babel({ presets: ['es2015'] }))
         .pipe(gulp.dest('./build'))
-        .pipe(expect('./app/**/*.js'))
+        // .pipe(expect('./app/**/*.js'))
         .pipe(connect.reload());
 });
 
@@ -73,13 +73,19 @@ gulp.task('build', ['js', 'libs', 'less', 'html', 'img'], function(){
 
 
 //connect server
-var connect = require('gulp-connect');
+const connect = require('gulp-connect');
+const history = require('connect-history-api-fallback');
 
 gulp.task('connect', function() {
   connect.server({
-    root: 'build',
+    root: './build',
     livereload: true,
-    port: 8888
+    port: 8888,
+    middleware: function(connect, opt) {
+      return [
+        history({})
+      ]
+    }
   });
 });
 

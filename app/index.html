@@ -8,35 +8,16 @@
   <title>NativeJS</title>
 </head>
 <body>
-<app>
-  <div class="container">
+  <app>
+    ...Downloading
 
-    <div class="users">
-      <table>
-        <thead>
-        <th>#</th>
-        <th>name</th>
-        <th>email</th>
-        <th>userName</th>
-        <th>address</th>
-        <th>phone</th>
-        <th>website</th>
-        <th>company</th>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
+    <content></content>
 
-    <div class="companies">
+  </app>
 
-    </div>
-
-  </div>
-</app>
-
-<script src="../libs/polyfill.js"></script>
-<script src="../libs/system.js"></script>
+<script src="./libs/polyfill.js"></script>
+  <script src="./libs/shim.js"></script>
+  <script src="./libs/system.js"></script>
 
 <script>
     // set our baseURL reference path
@@ -45,7 +26,7 @@
       map: {
         appController: 'appController.js',
         native: '../native.json',
-        text: 'import.js'
+        html: 'import.js'
       },
       packages: {
         js: {
