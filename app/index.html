@@ -10,23 +10,20 @@
 <body>
   <app>
     ...Downloading
-
-    <content></content>
-
   </app>
 
 <script src="./libs/polyfill.js"></script>
-  <script src="./libs/shim.js"></script>
-  <script src="./libs/system.js"></script>
+<!-- <script src="./libs/shim.js"></script> -->
+<script src="./libs/system.js"></script>
 
 <script>
     // set our baseURL reference path
     System.config({
       baseURL: "./",
       map: {
-        appController: 'appController.js',
+        appController: './appController.js',
         native: '../native.json',
-        html: 'import.js'
+        html: './js/Common/import.js'
       },
       packages: {
         js: {

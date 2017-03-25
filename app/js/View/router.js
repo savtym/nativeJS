@@ -1,5 +1,19 @@
 import Parse from './parse';
 
+
+
+import { 
+  Content,
+  Homepage
+} from '../../components/index.js';
+
+
+const urls = {
+  '/'         : Homepage,
+  '/content'  : Content,
+  'undefined' : '404'
+};
+
 export default class Routing {
   constructor() {
 
@@ -11,24 +25,12 @@ export default class Routing {
 
 
   static start() {
-    let parse = new Parse(document);
-    parse.pars();
+    this.parse = new Parse(document);
     this.routing(window.location.pathname);
   }
 
   static routing(url) {
-    switch (url) {
-      case '/' :
-        console.log(url);
-        break;
-      case '/content' :
-        console.log(url);
-        break;
-      default :
-        console.log('404');
-
-        break;
-    }
+    (urls[url]) ? this.parse.parsing(urls[url]) : console.log(urls[url]);;
     window.history.pushState("object or string", url, url);
 
   }

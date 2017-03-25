@@ -2,13 +2,14 @@
 // variables.js
 //
 
-import Content from './common/content/content.js';
+import * as pieces from './index.js';
+
+let elements = [];
+for (let key in pieces)
+  if (typeof pieces[key] === 'function') elements.push(pieces[key]);
 
 
-const components = [
-  Content,
-];
-
+const components = elements;
 let activeComponents = [];
 
 export default class Components {
@@ -28,18 +29,27 @@ export default class Components {
     return componentsName;
   }
 
-  static getComponentByKey(componentName) {
-    return components.find(component => component.nameComponent === componentName);
+  static getComponentByClassNameWithTag(nameComponent) {
+    nameComponent = nameComponent.tagName.toUpperCase();
+    return components.find(component => component.nameComponent.toUpperCase() === nameComponent);
   }
 
-  static isComponent(componentName) {
-    return !!components.find(component => component.nameComponent === componentName);
+  static isComponentByTag(tagComponent) {
+    tagComponent = tagComponent.tagName.toUpperCase();
+    return !!components.find(component => component.nameComponent.toUpperCase() === tagComponent);
   }
 
-  static addComponent(componentName) {
-    if (this.isComponent(componentName)) {
-      activeComponents.push(new this.getComponentByKey(componentName));
+  static isComponent(newComponent) {
+    return !!components.find(component => component === newComponent);
+  }
+
+  static addComponent(component) {
+    let newComponent;
+    if (this.isComponent(component)) {
+      newComponent = new component;
+      activeComponents.push(newComponent);
     }
+    return newComponent;
   }
 
   static removeComponent(component) {
