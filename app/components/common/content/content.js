@@ -18,8 +18,6 @@ export default class Content extends Native {
       { name: 'Hugo', age: 8 },
       { name: 'Sunny', age: 1 }
     ];
-
-    console.log(this.getHTML());
   }
 
   static get nameComponent() {

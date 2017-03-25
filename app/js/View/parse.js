@@ -10,7 +10,8 @@ export default class Parse {
 
   parsing(component) {
     component = Components.addComponent(component);
-    const compontDom = this._parsComponents(component.getHTML().children, document.createElement('template'));
+    let componentDom = component.getHTML();
+    componentDom = this._parsComponents(componentDom.children, componentDom);
 
 
     this.app.appendChild(componentDom);
@@ -22,14 +23,10 @@ export default class Parse {
     if (components.length !== 0) {
       for (let component of components) {
         if (Components.isComponentByTag(component)) {
-    debugger;
           let newComponent = Components.addComponent(Components.getComponentByClassNameWithTag(component));
-          let newComponentDom = newComponent.getHTML();
-          componentDom.appendChild(newComponentDom);
-          componentDom.appendChild(this._parsComponents(newComponentDom.children, componentDom))
-        } else { 
-          this._parsComponents(component.children, componentDom);
+          component.appendChild(newComponent.getHTML());
         }
+        this._parsComponents(component.children, componentDom);
       }
     }
     return componentDom;
