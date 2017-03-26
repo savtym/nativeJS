@@ -1,4 +1,5 @@
 import Variables from '../Common/variables';
+import Router from './router.js';
 import Components from '../../components/components.js';
 
 
@@ -20,8 +21,20 @@ export default class Parse {
 //getElementsByTagName(elem.nameComponent)[0].
 
   _parsComponents(components, componentDom) {
+
+    // recoursion component 
     if (components.length !== 0) {
       for (let component of components) {
+
+        // if tag have a link to router
+        if (component.hasAttribute(Variables.routerAttr)) {
+          component.onclick => {
+            debugger
+            Router.routing(this.getAttribute(Variables.routerAttr));
+          } 
+        }
+
+        // if component have contentName
         if (Components.isComponentByTag(component)) {
           let newComponent = Components.addComponent(Components.getComponentByClassNameWithTag(component));
           component.appendChild(newComponent.getHTML());

@@ -81,11 +81,11 @@ gulp.task('connect', function() {
     root: './build',
     livereload: true,
     port: 8888,
-    middleware: function(connect, opt) {
-      return [
-        history({})
-      ]
-    }
+    // middleware: function(connect, opt) {
+    //   return [
+    //     history({})
+    //   ]
+    // }
   });
 });
 
