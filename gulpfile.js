@@ -47,7 +47,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('jsComponent', function() {
-    return gulp.src('./app/**/**/*.js')
+    return gulp.src('./app/**/*.js')
         .pipe(babel({ presets: ['es2015'] }))
         .pipe(gulp.dest('./build'))
         // .pipe(expect('./app/**/*.js'))
@@ -81,11 +81,11 @@ gulp.task('connect', function() {
     root: './build',
     livereload: true,
     port: 8888,
-    // middleware: function(connect, opt) {
-    //   return [
-    //     history({})
-    //   ]
-    // }
+    middleware: function(connect, opt) {
+      return [
+        history({})
+      ]
+    }
   });
 });
 

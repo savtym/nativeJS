@@ -13,7 +13,7 @@ export default class Parse {
     component = Components.addComponent(component);
     let componentDom = component.getHTML();
     componentDom = this._parsComponents(componentDom.children, componentDom);
-
+    this.app.innerHTML = '';
 
     this.app.appendChild(componentDom);
   }
@@ -22,16 +22,15 @@ export default class Parse {
 
   _parsComponents(components, componentDom) {
 
-    // recoursion component 
+    // recursion component
     if (components.length !== 0) {
       for (let component of components) {
 
         // if tag have a link to router
         if (component.hasAttribute(Variables.routerAttr)) {
-          component.onclick => {
-            debugger
+          component.onclick = function () {
             Router.routing(this.getAttribute(Variables.routerAttr));
-          } 
+          };
         }
 
         // if component have contentName
