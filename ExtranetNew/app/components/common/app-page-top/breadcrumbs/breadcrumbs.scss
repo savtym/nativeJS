@@ -1,0 +1,119 @@
+
+//TODO: need refactoring top
+.c-breadcrumbs {
+  ul {
+    list-style-type: none;
+    li {
+      border-radius: 38px;
+      min-width: 160px;
+      height: 76px;
+      margin-left:-76px;
+      float: left;
+      background: #eaeaea;
+      -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,0.05);
+      box-shadow: 0 1px 5px 0 rgba(0,0,0,0.05);
+      &::before {
+        display: none;
+      }
+      &:first-child {
+        margin-left: 0;
+      }
+      a {
+        display: inline-block;
+        min-width: 160px;
+      }
+
+      .breadcrumbs-img {
+        width: 56px;
+        height: 56px;
+        background: #f6f6f6;
+        border-radius: 29px;
+        margin: 10px;
+        position: relative;
+        &::before {
+          position: absolute;
+          width: 24px;
+          height: 100%;
+          top:0;
+          left:16px;
+          color: #000;
+          text-align: center;
+          font-size: 22px;
+          line-height: 54px;
+        }
+      }
+
+      &.ready {
+        .breadcrumbs-img::after {
+          display: block;
+          width:12px;
+          height:12px;
+          position: absolute;
+          z-index: 1;
+          top: 3px;
+          left:3px;
+          border-radius:6px;
+          content: '';
+          background: #1f8acc;
+        }
+      }
+
+      &.moderated {
+        .breadcrumbs-img::after {
+          display: block;
+          width:12px;
+          height:12px;
+          position: absolute;
+          z-index: 1;
+          top: 3px;
+          left:3px;
+          border-radius:6px;
+          content: '';
+          background: #8ae622;
+        }
+      }
+
+      .breadcrumb-bed-icon::before {
+        position: absolute;
+        width: 24px;
+        height: 100%;
+        top:0;
+        left:16px;
+        display: block;
+        content: '';
+        background: url(../images/bed.svg) no-repeat center center;
+        background-size: 100% auto;
+      }
+
+      .breadcrumbs-text {
+        display: none;
+      }
+
+      &.active {
+        background: #fff;
+        .breadcrumbs-text {
+          display: inline-block;
+          padding-right: 30px;
+          span {
+            display: block;
+          }
+          .breadcrumb-number {
+            margin:21px 0 0 0;
+            font-size: 10px;
+            //color: #8d8e8e;
+            font-family:'Open Sans';
+            font-weight:600;
+            color: #232b2f;
+            letter-spacing: 0.2px;
+          }
+          .breadcrumb-name {
+            font-family: 'GothamProBold';
+            font-size: 13px;
+            letter-spacing: 0.2px;
+            color: #232b2f;
+          }
+        }
+      }
+    }
+  }
+}

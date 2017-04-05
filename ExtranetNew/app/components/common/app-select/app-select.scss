@@ -1,0 +1,68 @@
+@import "../../scss/variables";
+
+.c-app-select {
+  .jq-selectbox {
+    display: block !important;
+    .jq-selectbox__select {
+      border: solid 1px rgba(229, 229, 229, 0.1);
+      border-radius: 2px;
+      background: #fff;
+      box-shadow: 0 2px 2px 0 rgba(36, 53, 65, 0.1), 0 0 2px 0 rgba(36, 53, 65, 0.1);
+      height: 40px;
+      line-height: 40px;
+      padding-left: 10px;
+      &:hover {
+        background-color: #f5f6f7;
+      }
+
+      .jq-selectbox__select-text {
+        font-family: 'GothamPro';
+        color: $main_text;
+      }
+
+      .jq-selectbox__trigger {
+        border: none;
+        background-image: url(../../../images/arrows.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        .jq-selectbox__trigger-arrow {
+          display: none;
+        }
+      }
+    }
+
+    .selected {
+      background-color: #fff;
+    }
+
+    li {
+      font-family: 'GothamPro';
+      background-color: #fff;
+      padding: 12px 10px 12px 35px;
+      &:hover {
+        background-color: #f5f6f7;
+        color: $main_text;
+      }
+      &:active {
+        background-color: #1f8acc;
+        font-family: 'GothamProBold';
+        color: #fff;
+      }
+    }
+
+    .sel {
+      position: relative;
+      &::before {
+        content: url("../../../images/confirm.png");
+        position: absolute;
+        left: 12px;
+      }
+    }
+  }
+
+  //fix margin-bottom for top-position select
+  .select-bottom-margin {
+    margin: 0 0 34px 0;
+  }
+
+}

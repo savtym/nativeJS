@@ -1,0 +1,12 @@
+<div class="C-app-radio">
+
+  ${
+    this.inputs.map( radio => `
+      <label for='${ radio.id }'>
+        <input class="styler-component" name='${ radio.name }' value='${ radio.value }' id='${ radio.id }' type="radio" ${ radio.checked ? `checked` : '' } >
+        ${ radio.text ? `<span>${ radio.text }</span>` : '' }
+      </label>
+    `).join('')
+  }
+
+</div>

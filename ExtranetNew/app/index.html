@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="libs/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="libs/bootstrap/bootstrap-theme.min.css">
+  <link rel="stylesheet" type="text/css" href="libs/form_styler/jquery.formstyler.css">
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+
+  <title>theTravel</title>
+</head>
+
+<body>
+  <app>
+    ...Downloading
+  </app>
+
+
+  <script src="./libs/polyfill.js"></script>
+  <!-- <script src="./libs/shim.js"></script> -->
+  <script src="./libs/system.js"></script>
+
+  <script src="./libs/jquery-3.1.1.min.js"></script>
+  <script src="./libs/bootstrap/bootstrap.min.js"></script>
+  <script src="./libs/form_styler/jquery.formstyler.min.js"></script>
+  <script src="./libs/main.js"></script>
+
+  <script>
+    // set our baseURL reference path
+    System.config({
+      baseURL: "/",
+      map: {
+        appController: '/appController.js',
+        native: '/native.json',
+        html: '/common/import.js'
+      },
+      packages: {
+        js: {
+          format: 'register',
+          defaultExtension: 'js'
+        },
+      },
+      meta: {
+        // our modules have been transpiled to commonJS
+        './*': {
+          format: 'cjs'
+        }
+      }
+    });
+    System.import('appController')
+      .then(function(control) {
+        control.AppController.start();
+      }, console.error.bind(console));
+  </script>
+
+</body>
+</html>

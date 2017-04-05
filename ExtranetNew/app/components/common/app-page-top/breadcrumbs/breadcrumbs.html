@@ -1,0 +1,19 @@
+<div class="c-breadcrumbs col-xs-12">
+
+  <ul>
+    ${
+      this.steps.map( step => `
+        <li class="${ step.classNameStep }">
+          <a href="javascript:void(0);">
+            <div class="pull-left breadcrumbs-img ${ step.classNameImg }"></div>
+            <div class="breadcrumbs-text">
+              <span class="breadcrumb-number">${ step.textNumber }</span>
+              <span class="breadcrumb-name">${ step.textName }</span>
+            </div>
+          </a>
+        </li>
+      `).join('')
+    }
+  </ul>
+
+</div>

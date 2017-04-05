@@ -1,0 +1,12 @@
+<div class="c-app-select">
+
+  <select name='${ this.name }' id='${ this.id }' class="styler-component">
+
+    ${
+      this.options.map( option =>
+        `<option value='${ option }'>${ option }</option>`).join('')
+    }
+
+  </select>
+
+</div>

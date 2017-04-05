@@ -118,3 +118,6 @@ fabric.properties
 
 # build
 build/
+dist/
+
+css/

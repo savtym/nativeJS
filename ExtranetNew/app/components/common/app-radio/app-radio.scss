@@ -1,0 +1,24 @@
+@import "../../scss/variables";
+
+.c-app-radio {
+  label {
+    margin-right: 30px;
+    .jq-radio {
+      margin-right: 10px;
+    }
+    span {
+      font-family:"GothamPro";
+      font-weight: normal;
+      color: $grey_text;
+    }
+  }
+
+  .radio-group {
+    margin-bottom: 30px;
+  }
+
+  input.checked + span {
+    color: $main_text;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,27 @@
+@import "../../../scss/variables";
+
+.c-mutual {
+  .c-add-logo {
+    position: relative;
+    padding-left: 65px;
+    padding-top: 7px;
+    color: $grey_text;
+    font-size: 12px;
+    line-height: 18px;
+    height: 48px;
+    font-family:'Open Sans';
+    background-image: url(/images/Add.png);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+
+    .c-file_input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      left: 0;
+      top: 0;
+      cursor: pointer;
+    }
+  }
+}

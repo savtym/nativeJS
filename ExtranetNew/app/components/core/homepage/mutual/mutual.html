@@ -1,0 +1,83 @@
+<div class="c-mutual">
+  <div class="col-xs-6 left-padding">
+    <div class="col-xs-12 form_elements_container">
+
+      <div class="col-xs-12 top-padding">
+        <input type="text" class="c-input" placeholder="Название объекта, видимое клиентам">
+      </div>
+
+      <div class="clearfix">
+        <div class="col-xs-6">
+          <div class="c-add-logo">
+            <input class="c-file_input" type="file">
+            <span>Добавить <br/> логотип</span>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <app-select data-obj='${ this.select }'></app-select>
+        </div>
+      </div>
+
+      <div class="clearfix">
+        <div class="col-xs-6">
+          <div class="select-wrap">
+            <app-select data-obj='${ this.select }'></app-select>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="select-wrap">
+            <app-select data-obj='${ this.select }'></app-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 clearfix">
+        <input type="text" class="c-input" placeholder="Название объекта, видимое клиентам">
+      </div>
+
+      <div class="col-xs-12 clearfix">
+        <input type="text" class="c-input" placeholder="Название объекта, видимое клиентам">
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-6 right-padding">
+    <div class="col-xs-12 form_elements_container">
+      <div class="col-xs-12">
+        <h5 class="c-h5">Используемый Channel Manager</h5>
+        <app-select data-obj='${ this.select }'></app-select>
+        <div class="c-small-button clearfix">
+          <button class="pull-right">Продолжить</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 form_elements_container">
+      <div class="col-xs-12">
+        <h5 class="c-h5">Формат работы</h5>
+        <h6 class="c-h6">Хотите работать в режиме заявки ?</h6>
+        <input type="text" class="c-input" placeholder="Название объекта, видимое клиентам">
+        <app-radio data-obj='${ this.radio }'></app-radio>
+        <div class="c-helper">
+          <h6 class="c-6h-bold"><span>?</span>Режим заявки</h6>
+          <p class="c-paragraph">На сервисе для гостей объекта вместо кнопки "ЗАБРОНИРОВАТЬ" на выбранном номере будет кнопка "УЗНАТЬ ДОСТУПНОСТЬ". Бронь будет отображаться в текущих бронированиях со статусом "ЗАЯВКА"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 form_elements_container">
+      <div class="col-xs-12">
+        <h5 class="c-h5">Используемая АСУ</h5>
+        <app-select data-obj='${ this.select }'></app-select>
+        <div class="c-small-button clearfix">
+          <button class="pull-right">Продолжить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="c-blue-button next-button-wrap clearfix">
+    <button class="pull-right">Далее</button>
+  </div>
+
+</div>

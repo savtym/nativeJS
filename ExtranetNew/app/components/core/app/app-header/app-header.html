@@ -1,0 +1,14 @@
+<div class="c-app-header">
+
+  <div class="navbar navbar-default navbar-fixed-top">
+		<div style="display: none;">	
+			${
+				this.books.map( book => 
+					`<li>${book}</li>`).join('')
+			}
+		</div>
+    <div class="side_logo_wrapper pull-left"><a href=""><img src="images/header-logo.png"></a></div>
+    <user-top-menu></user-top-menu>
+  </div>
+
+</div>

@@ -1,0 +1,20 @@
+<div class="c-page-tabs-list col-xs-12">
+
+  <ul class="nav nav-tabs pull-left">
+    ${
+      this.list.map( tab => `
+        <li class="${ tab.active ? 'active' : '' }">
+          <a class="large_button" data-toggle="tab" href='#${ tab.id }'>
+            ${ tab.text }
+          </a>
+        </li>
+      `).join('')
+    }
+  </ul>
+
+  <ul class="nav nav-tabs pull-right services-second-tabs " role="tablist">
+    <li class="active"><a href="#addServices" aria-controls="home" role="tab" data-toggle="tab"><span class="travel-icon-638"></span></a></li>
+    <li><a href="#tableServices" aria-controls="profile" role="tab" data-toggle="tab"><span class="travel-icon-640"></span></a></li>
+  </ul>
+
+</div>

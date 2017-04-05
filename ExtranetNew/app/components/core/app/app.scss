@@ -1,0 +1,19 @@
+@import "../../scss/variables";
+
+@import "./app-header/app-header";
+@import "./app-footer/app-footer";
+@import "./app-aside/app-aside";
+
+.c-app {
+
+  .content {
+    background: #edeeef;
+    width: 100%;
+    margin: 50px 0 0 0;
+
+    & > .container-fluid {
+      padding: 0 0 0 280px;
+    }
+  }
+
+}
