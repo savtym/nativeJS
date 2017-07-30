@@ -15,13 +15,7 @@ options:
 
 */
 
-import User from '../Model/user.js';
-import Company from '../Model/company.js';
-
 export class Cookie {
-  constructor() {
-    //expeception for new object
-  }
 
   static getCookies(name) {
     let cookies = {};

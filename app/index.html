@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Native js</title>
+</head>
+
+<body>
+
+    <header>it`s header</header>
+
+    <app-main>loading...</app-main>
+    
+    <footer>it`s footer</footer>
+
+    <script>
+    // set our baseURL reference path/
+    System.config({
+        baseURL: "/",
+        map: {
+            native: '/native.min.js'
+        },
+        meta: {
+            // our modules have been transpiled to commonJS
+            '*': {
+                format: 'cjs'
+            }
+        }
+    });
+
+    System.import('native')
+        .then(function({ Native }) {
+            Native.init();
+        }, console.error.bind(console));
+    </script>
+</body>
+
+</html>
