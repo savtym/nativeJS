@@ -1,18 +1,17 @@
 
 export class Virtual {
 
-	constructor(el, className = '', methods = '', ) {
+	constructor(el, className = '') {
 		this.el = el;
 		this.tmp = el.innerHTML;
 		this.class = className;
-		this.methods = this.parseMethods(methods);
-		this.eventListener(this.el, this.methods);
+		this.methods = Virtual.parseMethods(el);
 	}
-
 
 	destructor() {
-		this.eventListener(this.el, this.methods, false);
+		Virtual.eventListener(this.el, this.methods, false);
 	}
+
 
 	/*
 			event listener
@@ -20,10 +19,8 @@ export class Virtual {
 
 	static eventListener(el, methods, isAddEvent = true) {
 		const funcListener = (isAddEvent) ? 'addEventListener' : 'removeEventListener';
-		for (let [method, events] of this.methods) {
-			for (let event of events) {
-				this.el[funcListener](event, method);
-			}
+		for (let [event, method] of methods) {
+			el[funcListener](event, method);
 		}
 	}
 
@@ -32,23 +29,16 @@ export class Virtual {
 			parse methods
 	*/
 
-	static parseMethods(methods) {
+	static parseMethods(el) {
 		let resultMethods = new Map();
 
-		for (let event of methods.split(';')) {
-			for (let connect of event.split(',')) {
-
-				if (connect.length !== 2) {
-					throw 'error methods and event';
+		for (let attr of el.attributes) {
+			if (attr.name.startsWith(Var.listener)) {
+				let func = attr.value;
+				if (typeof attr.value === 'string') {
+					func = new Function(attr.value);
 				}
-
-				for (let method of connect[0]) {
-					resultMethods.set(method, []);
-					for (let listener of connect[1]) {
-						resultMethods.get(method).push(listener);
-					}
-				}
-
+				resultMethods.set(attr.name.replace(Var.listener, ''), func);
 			}
 		}
 

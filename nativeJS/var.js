@@ -5,6 +5,8 @@
 
 // common
 const router = 'n-href';
+const listener = 'n-on:';
+const className = 'n-class';
 const nameMainContent = 'app-main';
 const dynamicallyScript = 'app-script';
 
@@ -33,8 +35,23 @@ const errMethods = 'n-method has problem';
 // Urls
 
 const urls = {
+  '/': {
+    title: 'native',
+    component: '/components/dynamic.html'
+  }
+};
+
+
+// code status server
+
+const codeStatusServer = {
+  '401' : {
+    url: '/customer/login-user/'
+  },
 
 };
+
+
 
 export class Var {
 
@@ -43,6 +60,9 @@ export class Var {
   */
 
   static get router() { return router; }
+  static get listener() { return listener; }
+  static get className() { return className; }
+  static get methodsOfClass() { return methodsOfClass; }
   static get nameMainContent() { return nameMainContent; }
   static get dynamicallyScript() { return dynamicallyScript; }
 
@@ -75,5 +95,12 @@ export class Var {
   */
 
   static get urls() { return urls };
+
+
+  /*
+      codeStatusServer
+  */
+
+  static get codeStatusServer() { return codeStatusServer };
   
 }

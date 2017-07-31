@@ -4,14 +4,6 @@
 
 let bufData;
 
-const codeStatusServer = {
-  '401' : {
-    url: '/customer/login-user/'
-  },
-
-};
-
-
 export class Native {
 
 
@@ -20,6 +12,7 @@ export class Native {
   */
 
   static init() {
+    Router.init();
     
   }
 
@@ -147,7 +140,7 @@ export class Native {
 
     xhr.onload = (response) => {
 
-      const codeStatus = codeStatusServer[response.currentTarget.status];
+      const codeStatus = Var.codeStatusServer[response.currentTarget.status];
 
       if (codeStatus) {
         Observer.emit(`Server: ${ response.currentTarget.status }`, response, url, callback, data);
@@ -158,7 +151,7 @@ export class Native {
       if (callback) {
         callback(response.currentTarget.responseText, url);
       } else {
-        Observer.emit(Variables.responseToRequest, response.currentTarget.responseText, url);
+        Observer.emit(Var.responseToRequest, response.currentTarget.responseText, url);
       }
     };
 

@@ -1,4 +1,6 @@
 
+let customHadlerAfterForm;
+
 export class ParseJSON {
 
   static get components() {
@@ -7,6 +9,12 @@ export class ParseJSON {
       'INPUT'     : Input,
       'TEXTAREA'  : TextArea
     };
+  }
+
+  static get getDataAfterForm() { return dataAfterForm; }
+
+  static customHadlerAfterForm(func) {
+    customHadlerAfterForm = func;
   }
 
 
