@@ -23,9 +23,7 @@ const JSONDefault = 'default';
 
 
 // Observer
-const responseToRequest = 'responseToRequest';
 const documentIsReady = 'documentIsReady';
-const reChangeDomDynamically = 'reChangeDomDynamically';
 
 
 // Errors (throw message)
@@ -85,9 +83,7 @@ export class Var {
   * Observer
   */
 
-  static get responseToRequest() { return responseToRequest; }
   static get documentIsReady() { return documentIsReady; }
-  static get reChangeDomDynamically() { return reChangeDomDynamically; }
 
 
   /*

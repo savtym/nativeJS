@@ -91,19 +91,6 @@ export class Parse {
 
     }
 
-    /*
-     *   get component by route
-     */
-
-    static getComponentByRoute(url) {
-        if (url.startsWith('/')) {
-            Native.request(url, (component) => {
-                this._changeComponentDom(component);
-                Router.routing(url);
-            });
-        }
-    }
-
 
     /*
         get n-class

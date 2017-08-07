@@ -1,6 +1,6 @@
 'use strict';
 
-const port = '8080';
+const port = '8000';
 const path = './app';
 
 const gulp = require('gulp');

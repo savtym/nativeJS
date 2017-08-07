@@ -13,7 +13,25 @@ export class Native {
 
   static init() {
     Router.init();
-    
+  }
+
+
+  /*
+  *   register component
+  */
+
+  static component({ name = '', url = '' }) {
+    if (typeof name === 'string') {
+
+      if (typeof url === 'string' && url.startsWith('/')) {
+
+      }
+
+      Router.getComponentByRoute(componentUrl);
+
+    } else {
+      console.error(`Invalid name component: ${ name }`);
+    }
   }
 
 
@@ -90,26 +108,24 @@ export class Native {
 
 
   /*
-  *   parse JSON is safely
-  */
-
-  static jsonParse(response) {
-    try {
-      return JSON.parse(response);
-    } catch(e) {
-      console.error(e, response);
-      // alert(e); // error in the above string (in this case, yes)!
-    }
-  }
-
-
-  /*
    *  get and post request with callback
+   *
+   *  beforeSend, complete, error, success, onprogress
+   *
    */
 
-  static request(url, callback, data) {
+  static request({
+    contentType = 'multipart/form-data',
+    method = 'GET',
+    processData = true,
+    url = null,
+    data = null,
+    beforeSend = null,
+    complete = null,
+    error = null,
+    success = null,
+    onprogress = null } = { url }) {
 
-    let method = 'GET';
     let body = ['\r\n'];
 
     const XHR = ('onload' in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
@@ -119,44 +135,66 @@ export class Native {
       method = 'POST';
     }
 
+    if (typeof onprogress === 'function') {
+      xhr.onprogress = onprogress;
+    }
+
     xhr.open(method, url, true);
 
     if (data) {
       let boundary = String(Math.random()).slice(2);
-      let boundaryMiddle = '--' + boundary + '\r\n';
-      let boundaryLast = '--' + boundary + '--\r\n';
+      const boundaryMiddle = '--' + boundary + '\r\n';
+      const boundaryLast = '--' + boundary + '--\r\n';
 
       for (let key in data) {
         body.push('Content-Disposition: form-data; name="' + key + '"\r\n\r\n' + data[key] + '\r\n');
       }
 
       body = body.join(boundaryMiddle) + boundaryLast;
-      xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
-
+      xhr.setRequestHeader('Content-Type', `${ contentType }; boundary=` + boundary);
     }
 
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+    if (typeof beforeSend === 'function') {
+      beforeSend();
+    }
+
     xhr.send(body);
 
     xhr.onload = (response) => {
 
-      const codeStatus = Var.codeStatusServer[response.currentTarget.status];
+      const codeStatus = response.currentTarget.status;
+      let responseText = response.currentTarget.responseText;
 
-      if (codeStatus) {
-        Observer.emit(`Server: ${ response.currentTarget.status }`, response, url, callback, data);
+      if (processData) {
+        try {
+          responseText = JSON.parse(responseText);
+        } catch(e) {
+          console.error(e, responseText);
+        }
+      }
+
+      if (Var.codeStatusServer[codeStatus]) {
+        Observer.emit(`Server: ${ codeStatus }`, response, responseText, url, success);
         return;
       }
 
+      if (typeof success === 'function') {
+        success(responseText, url);
+      }
 
-      if (callback) {
-        callback(response.currentTarget.responseText, url);
-      } else {
-        Observer.emit(Var.responseToRequest, response.currentTarget.responseText, url);
+      if (typeof complete === 'function') {
+        complete();
       }
     };
 
-    xhr.onerror = function () {
-      console.error(`Error API to url ${ url } : ${ this }`);
+    xhr.onerror = function (e) {
+      if (typeof error === 'function') {
+        error(e, url);
+      } else {
+        console.error(`Error ${ e.target.status } occurred while receiving the document.`);
+      }
     };
 
   }
