@@ -4,11 +4,12 @@
 
 
 // common
+const bind = 'n-bind:';
 const router = 'n-href';
 const listener = 'n-on:';
 const className = 'n-class';
 const nameMainContent = 'app-main';
-const dynamicallyScript = 'app-script';
+const scriptStandard = 'es6';
 
 
 // JSON
@@ -62,7 +63,7 @@ export class Var {
   static get className() { return className; }
   static get methodsOfClass() { return methodsOfClass; }
   static get nameMainContent() { return nameMainContent; }
-  static get dynamicallyScript() { return dynamicallyScript; }
+  static get scriptStandard() { return scriptStandard; }
 
 
   /*

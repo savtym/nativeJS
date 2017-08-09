@@ -8,8 +8,16 @@ export class Script {
 
     static hasAttr(component) {
         // if tag have a app-script
-        component.querySelectorAll(Var.dynamicallyScript).forEach((scriptComponent) => {
-            scriptIncludes.push(scriptComponent.getAttribute('src'));
+        component.querySelectorAll(`script[type="${ Var.scriptStandard }"]`).forEach(function(script) {
+            if (script.getAttribute('src')) {
+              scriptIncludes.push(script.getAttribute('src'));
+            } else {
+              try {
+                new Function('Native', script.innerHTML).call(Native, Native);
+              } catch (e) {
+                console.error(`\n${ script.outerHTML }\n\n`, e);
+              }
+            }
         });
     }
 

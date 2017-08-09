@@ -4,27 +4,34 @@ let firstComponent;
 
 let dataAfterForm;
 
+let mainContent;
+
 const virtuals = [];
+const cache = {};
 
 export class Parse {
 
     static init(component) {
         this.page = document.body;
-        this.mainContent = this.page.getElementsByTagName(Var.nameMainContent)[0];
+        mainContent = this.page.getElementsByTagName(Var.nameMainContent)[0];
 
-        if (!this.mainContent) {
+        if (!mainContent) {
             throw `not found <${ Var.nameMainContent }>`;
         }
-        // firstComponent = this.mainContent.innerHTML;
 
+        // firstComponent = this.mainContent.innerHTML;
         if (component) {
             conuterRequestAPI = 0;
-            this.mainContent.innerHTML = component;
+            mainContent.innerHTML = component;
         }
 
         this.parsComponents(this.page);
         this._documentIsReady(this.page);
     }
+
+    static get mainContent() { return mainContent; }
+
+    static get cache() { return cache; }
 
 
 
@@ -40,13 +47,13 @@ export class Parse {
     //     }
     // }
 
-    static setComponent(component, isFirst = false) {
-        if (isFirst) {
-            this.mainContent.innerHTML = firstComponent;
-        } else {
-            this.mainContent.innerHTML = component;
-        }
-    }
+    // static setComponent(component, isFirst = false) {
+    //     if (isFirst) {
+    //         mainContent.innerHTML = firstComponent;
+    //     } else {
+    //         mainContent.innerHTML = component;
+    //     }
+    // }
 
 
     static parsComponents(componentDom) {
@@ -55,34 +62,34 @@ export class Parse {
         Router.routerLink(componentDom);
 
         // for form TODO: need refactoring
-        componentDom.querySelectorAll('form').forEach((component) => {
-            const self = this;
-            component.onsubmit = function() {
-
-                saveForm(this, (data, form) => {
-                    let result = true;
-                    dataAfterForm = data;
-
-                    if (customHadlerAfterForm) {
-                        result = customHadlerAfterForm(data, form);
-                    }
-
-                    if (result) {
-                        const url = form.getAttribute(Variables.routerHref);
-
-                        if (url) {
-                            Native.request(url, (component) => {
-                                self._changeComponentDom(component);
-                                Router.routing(url);
-                            });
-                        }
-                    }
-
-                }, () => { alert('Произошла ошибка, повторите попытку') });
-
-                return false;
-            };
-        });
+        // componentDom.querySelectorAll('form').forEach((component) => {
+        //     const self = this;
+        //     component.onsubmit = function() {
+        //
+        //         saveForm(this, (data, form) => {
+        //             let result = true;
+        //             dataAfterForm = data;
+        //
+        //             if (customHadlerAfterForm) {
+        //                 result = customHadlerAfterForm(data, form);
+        //             }
+        //
+        //             if (result) {
+        //                 const url = form.getAttribute(Variables.routerHref);
+        //
+        //                 if (url) {
+        //                     Native.request(url, (component) => {
+        //                         self.changeComponentDom(component);
+        //                         Router.routing(url);
+        //                     });
+        //                 }
+        //             }
+        //
+        //         }, () => { alert('Произошла ошибка, повторите попытку') });
+        //
+        //         return false;
+        //     };
+        // });
 
         Script.hasAttr(componentDom);
 
@@ -109,12 +116,20 @@ export class Parse {
      *    change Component dynamically
      */
 
-    static _changeComponentDom(component) {
-        conuterRequestAPI = 0;
-        this.mainContent.innerHTML = component;
+    static setComponent(name, str, tmp) {
+
+        if (!cache[str]) {
+            cache[str] = tmp;
+        }
+debugger
+        // conuterRequestAPI = 0;
+        document.querySelectorAll(name).forEach((_, dom) => {
+          dom.innerHTML = tmp;
+          this.parsComponents(dom);
+        });
+
         // stateHistoryComponents.push(this.mainContent.innerHTML);
-        this.parsComponents(this.mainContent);
-        this._documentIsReady(this.mainContent);
+        this._documentIsReady(mainContent);
     };
 
 

@@ -20,16 +20,10 @@ export class Native {
   *   register component
   */
 
-  static component({ name = '', url = '' }) {
-    if (typeof name === 'string') {
-
+  static component(name = '', url = '') {
       if (typeof url === 'string' && url.startsWith('/')) {
-
-      }
-
-      Router.getComponentByRoute(componentUrl);
-
-    } else {
+        Router.getComponentByRoute(name, url);
+      } else {
       console.error(`Invalid name component: ${ name }`);
     }
   }

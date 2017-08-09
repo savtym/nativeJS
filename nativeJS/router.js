@@ -23,16 +23,16 @@ export class Router {
 
     this.routing(url, true);
 
-    window.onpopstate = (obj) => {
-			Parse.setStateHistoryComponents();
-			if (obj && obj.state) {
-				Parse.setComponent(obj.state.component);
-			} else {
-				Parse.setComponent('', true);
-			}
-			this.routing(document.location.pathname, true);
-			Observer.emit(Var.documentIsReady);
-    };
+    // window.onpopstate = (obj) => {
+			// Parse.setStateHistoryComponents();
+			// if (obj && obj.state) {
+			// 	Parse.setComponent(obj.state.component);
+			// } else {
+			// 	Parse.setComponent('', true);
+			// }
+			// this.routing(document.location.pathname, true);
+			// Observer.emit(Var.documentIsReady);
+    // };
 
   }
 
@@ -65,7 +65,7 @@ export class Router {
 		componentDom.querySelectorAll(`[${ Var.routerAttr }]`).forEach((component) => {
 			component.onclick = function(e) {
 				e.preventDefault();
-				Router._getComponentByRoute(this.getAttribute('href'));
+				Router.getComponentByRoute(this.getAttribute('href'));
 			};
 		});
 	}
@@ -74,16 +74,22 @@ export class Router {
 	 *   get component by route
 	 */
 
-  static _getComponentByRoute(url) {
+  static getComponentByRoute(name, url) {
     if (url.startsWith('/')) {
-      Native.request({
-      	url: url,
-        processData: false,
-				success: (component) => {
-          this._changeComponentDom(component);
-          Router.routing(url);
-        }
-      });
+
+    	if (Parse.cache[url]) {
+        Parse.setComponent(name, Parse.cache[url]);
+			} else {
+        Native.request({
+          url: url,
+          processData: false,
+          success: (component) => {
+            Parse.setComponent(name, url, component);
+            Router.routing(url);
+          }
+        });
+			}
+
     }
   }
 
