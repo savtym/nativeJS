@@ -1,0 +1,97 @@
+.c-current-alerts {
+  .buttons {
+    margin-top: 10px;
+    @include clearfix;
+
+    button {
+      float: left;
+      &.enable {
+        margin-right: 8px;
+      }
+      &.disable,
+      &.edit {
+        margin-right: 32px;
+      }
+      &.remove {
+        float: right;
+      }
+    }
+  }
+
+  .count-period {
+    margin-top: 10px;
+    span {
+      font-family:SegoeUI-Regular;
+      font-size:14px;
+      color:#212121;
+    }
+    a {
+      margin-left: 2px;
+      font-size: 14px;
+    }
+  }
+
+  .table {
+    margin-top: 10px;
+    font-family:SegoeUI-Regular;
+    font-size:14px;
+    .tr {
+      display: flex;
+      flex-wrap: wrap;
+      height: 36px;
+      line-height: 36px;
+    }
+    .td {
+      display: inline-block;
+      padding-right: 10px;
+      &:nth-child(1) {
+        width: 3%;
+        .checkbox {
+          display: inline-block;
+          span {
+            top: 2px;
+          }
+        }
+      }
+      &:nth-child(2) {
+        width: 43%;
+
+        p {
+          line-height: 1;
+        }
+
+        .title {
+          padding-top: 5px;
+        }
+        .description {
+          font-size:12px;
+
+        }
+      }
+      &:nth-child(3) {
+        width: 16%;
+      }
+      &:nth-child(4) {
+        width: 10%;
+      }
+      &:nth-child(5),
+      &:nth-child(6) {
+        text-align: right;
+        width: 14%;
+        padding-right: 10px;
+      }
+    }
+
+    .thead {
+      color:#d81e05;
+    }
+    .tbody {
+      color:#212121;
+      .tr.active {
+        background: #d81e05;
+        color: #fff;
+      }
+    }
+  }
+
+}

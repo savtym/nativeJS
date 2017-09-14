@@ -1,93 +1,127 @@
-"use strict"
+'use strict';
+
+const port = '8000';
+const path = './app';
+const pathBuild = './build';
 
 const gulp = require('gulp');
-const autoprefixer = require('gulp-autoprefixer');
-const rename = require("gulp-rename");
+const rename = require('gulp-rename');
+const notify = require("gulp-notify");
+const notifier = require('node-notifier');
+const connect = require('gulp-connect');
 
-/* autoprefixer for version browsers */
-const autoprefixerLastVersion = "> 1%";
-const autoprefixerIEVersion = "IE 8";
+/* babel */
+const babel = require('gulp-babel');
+const jsmin = require('gulp-jsmin');
 
-//less
-const less = require('gulp-less');
-const path = require('path');
 
-gulp.task('less', function() {
-  return gulp.src('./app/**/*.less')
-    .pipe(less({
-      paths: [ path.join(__dirname, 'less', 'includes') ]
-    }))
-    .pipe(autoprefixer({
-      browsers: [autoprefixerLastVersion, autoprefixerIEVersion],
-      cascade: false
-    }))
-    .pipe(rename({dirname: ''}))
-    .pipe(gulp.dest('./build/css'))
-    .pipe(connect.reload());
-});
+/* native build in single file */
+const concat = require('gulp-concat');
+const order = require('gulp-order');
+const autopolyfiller = require('gulp-autopolyfiller');
+const merge = require('event-stream').merge;
+// const autoPolyfiller = require('gulp-autoPolyfiller');
+
+
 
 //html
 gulp.task('html', function() {
-	return gulp.src('./app/**/*.html')
-    .pipe(gulp.dest('build'))
-		.pipe(connect.reload());
-})
-
-//img
-gulp.task('img', function() {
-  return gulp.src(['./app/**/*.png', './app/**/*.jpg'])
-    .pipe(gulp.dest('./build'))
+  return gulp.src(`${ path }/**/*.html`)
+    .pipe(gulp.dest(`${ pathBuild }/`))
     .pipe(connect.reload());
-})
-
-
-//babel
-const babel = require('gulp-babel');
-const expect = require('gulp-expect-file');
-
-gulp.task('js', function() {
-  return gulp.src('./app/**/*.js') 
-    .pipe(babel({ presets: ['es2015'] }))
-    .pipe(gulp.dest('./build'))
-    .pipe(expect('./app/**/*.js'))
-		.pipe(connect.reload());
 });
 
-//libs js
-gulp.task('libs', function() {
-  return gulp.src([
-    'node_modules/systemjs/dist/system.js',
-    'node_modules/babel-polyfill/dist/polyfill.js'])
-    .pipe(gulp.dest('./build/libs'))
-		.pipe(connect.reload());
+// scss
+const sass = require('gulp-sass');
+
+gulp.task('scss', () => {
+  return gulp.src(`${ path }/scss/main.scss`)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(`${ pathBuild }/css/`))
+    .pipe(connect.reload());
 });
 
 
-//build
-gulp.task('build', ['js', 'libs', 'less', 'html', 'img'], function(){
-  return gulp.src('./build/**/*.*') //min img, css, js
-    .pipe(gulp.dest('./dist'));
+gulp.task('js-native', () => {
+  let isBabel = babel({
+    presets: [require('babel-preset-es2015')]
+  });
+
+  isBabel.on('error', function(e) {
+    console.log(e);
+    isBabel.end();
+    notifier.notify(`error JS: ${ e.message }`);
+  });
+
+  // Concat all required js files
+  const all = gulp.src([`${ path }/libs/*.js`, `${ path }/libs/polyfill/*.js`, `${ path }/js/common/components/*.js`, `${ path }/js/common/*.js`, `${ path }/js/*.js`])
+    .pipe(isBabel)
+    .pipe(concat('native.js'));
+
+  // Generate polyfills for all files
+  const polyfills = all
+    .pipe(autopolyfiller('polyfills.js', {
+      browsers: ['last 2 version', 'ie 8', 'ie 9']
+    }));
+
+  return merge(polyfills, all)
+  // Order files. NB! polyfills MUST be first
+    .pipe(order([
+      'polyfills.js',
+      'native.js'
+    ]))
+    // Make single file
+    .pipe(concat('native.min.js'))
+    // Uglify it
+    // .pipe(jsmin())
+    .pipe(rename({dirname: ''}))
+    // And finally write `all.min.js` into `build/` dir
+    .pipe(gulp.dest(`${ pathBuild }/libs/`))
+    .pipe(connect.reload());
+});
+
+gulp.task('js', () => {
+  let isBabel = babel({
+    presets: [require('babel-preset-es2015')]
+  });
+
+  isBabel.on('error', function(e) {
+    console.log(e);
+    isBabel.end();
+    notifier.notify(`error JS: ${ e.message }`);
+  });
+
+  gulp.src(`${ path }/components/**/*.js`)
+    .pipe(isBabel)
+    // .pipe(autoPolyfiller(`./js/autoPolyfiller.js`, {
+    //   browsers: ['last 2 version', 'ie 9']
+    // }))
+    // .pipe(jsmin())
+    // .pipe(rename({dirname: ''}))
+    .pipe(gulp.dest(`${ pathBuild }/components/`))
+    .pipe(connect.reload());
+    // .pipe(open({uri: recacheURL}))
 });
 
 
-//connect server
-var connect = require('gulp-connect');
+/* connect server */
 
 gulp.task('connect', function() {
   connect.server({
-    root: 'build',
-    livereload: true,
-    port: 8888
+    root: pathBuild,
+    port: port,
+    livereload: true
   });
 });
 
-//watch
-gulp.task('watch', function() {
-  gulp.watch(['./app/**/*.html'], ['html']);
-  gulp.watch(['./app/**/*.less'], ['less']);
-  gulp.watch(['./app/**/*.js'], ['js']);
-  gulp.watch(['./app/**/*.img'], ['img']);
+/* watch */
+gulp.task('watch', () => {
+  gulp.watch([`${ path }/components/**/*`], ['js']);
+  gulp.watch([`${ path }/js/**/*`], ['js-native']);
+  gulp.watch([`${ path }/**/*.scss`], ['scss']);
+  gulp.watch([`${ path }/**/*.html`], ['html']);
 });
 
-//default
-gulp.task('default', ['connect', 'html', 'js', 'libs', 'less', 'img', 'watch']);
+
+/* default */
+gulp.task('default', ['connect', 'html', 'js', 'js-native', 'scss', 'watch']);

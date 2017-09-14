@@ -1,0 +1,24 @@
+.c-management {
+  padding: 10px 16px;
+
+  .container {
+    margin-top: 8px;
+    padding-left: 16px;
+    &.no-padding {
+      padding-left: 0;
+    }
+    .col-3,
+    .col-6 {
+      padding: 8px 16px 16px;
+      background:#eee;
+      box-shadow:0 0 8px 0 rgba(0,0,0,0.20);
+      border-radius:2px;
+    }
+  }
+
+  @import 'current-alerts/current-alerts';
+  @import 'details/details';
+  @import 'email-alerts/email-alerts';
+  @import 'notification-receiver/notification-receiver';
+  @import 'sms-alerts/sms-alerts';
+}

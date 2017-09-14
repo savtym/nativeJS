@@ -1,0 +1,56 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity:0.9;
+  background:#fafafa;
+  text-align: center;
+  height:48px;
+  width: 100%;
+  line-height: 48px;
+  z-index: 99;
+
+  .title {
+    position: relative;
+    display: inline-block;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 9px;
+      left: -40px;
+      display: block;
+      background:#d81e05;
+      width:30px;
+      height:30px;
+      border-radius:100%;
+    }
+  }
+
+  .user {
+    position: absolute;
+    top: 0;
+    right: 24px;
+    height: 100%;
+
+    .name {
+      margin: 5px 8px 0 0;
+      float: left;
+      line-height: 18px;
+      text-align: right;
+    }
+    
+    .image {
+      margin: 6px 12px 0 0;
+      float: left;
+      width:36px;
+      height:36px;
+      border-radius:100%;
+      background-color: #ccc;
+    }
+
+    .sign-out {
+      margin-top: -2px;
+      float: left;
+    }
+  }
+}
