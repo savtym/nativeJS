@@ -12,7 +12,7 @@ class PropParse {
     this._cls = cls;
     this._hash = hash;
     this._hashTmp = hashTmp;
-    this._tmp = `<property n-hash='${hash}:${hashTmp}'>${tmp}</property>`;
+    this._tmp = new Function('',`return \`<property n-hash='${hash}:${hashTmp}'>${tmp}</property>\``);
   }
 
   changeTmp(dom) {
@@ -37,7 +37,7 @@ class PropParse {
 
   get prop() { return this._prop };
   get cls() { return this._cls };
-  get tmp() { return this._tmp; }
+  get tmp() { return this._tmp.call(this.cls, this.cls) }
   get hash() { return this._hash; }
   get hashTmp() { return this._hashTmp; }
 

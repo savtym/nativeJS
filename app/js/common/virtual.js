@@ -70,7 +70,7 @@ class Virtual {
       for (let key of args) {
         obj[key] = this.cls[key];
 
-        if (!this.properties[key]) continue;
+        if (!this.properties['this.'+key]) continue;
 
         if (typeof(this.cls[key]) === 'object') {
 
@@ -112,7 +112,7 @@ class Virtual {
 
             obj[key] = (prop && prop.get) ? prop.get.call(this.cls) : val;
 
-            this.cls.render(key);
+            this.cls.render('this.'+key);
           }
         });
 

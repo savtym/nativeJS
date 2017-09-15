@@ -74,19 +74,27 @@ class Common {
 
     for (let name in components) {
       if (!cache[name]) {
+        if (components[name].startsWith('/')) {
+          Native.request({
+            processData: false,
+            url: components[name],
+            success: (response, url) => {
+              cache[url] = response;
+              let [tmp, script, isRequest] = Script.hasAttr(response, url, name);
 
-        Native.request({
-          processData: false,
-          url: components[name],
-          success: (response, url) => {
-            cache[url] = response;
-            let [tmp, script, isRequest] = Script.hasAttr(response, url, name);
-
-            if (!isRequest) {
-              Parse.parsComponents(tmp, script, name);
+              if (!isRequest) {
+                Parse.parsComponents(tmp, script, name);
+              }
             }
+          });
+        } else {
+          cache[components[name]] = components[name];
+          let [tmp, script, isRequest] = Script.hasAttr(components[name], window.location.pathname, name);
+
+          if (!isRequest) {
+            Parse.parsComponents(tmp, script, name);
           }
-        });
+        }
 
       } else {
         debugger;

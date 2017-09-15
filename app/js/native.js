@@ -1,8 +1,8 @@
 
 export class Native {
 
-  static init() {
-    Common.includeComponents(Var.components);
+  static init(components) {
+    Common.includeComponents(components);
   }
 
 
