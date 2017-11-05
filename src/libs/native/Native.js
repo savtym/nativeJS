@@ -1,10 +1,12 @@
 import {Wrap} from './Wrap';
 
+const cache = {};
+
 class Native {
 
 
-	static render(cls, name) {
-		if (name) {
+	static render(html, name, cls) {
+		if (html && name) {
 
 			// func = (e) => {
 			// 	cls.connectedCallback.call(cls, e, ...args);
@@ -12,8 +14,13 @@ class Native {
 
 			const connectedCallback = cls.prototype.connectedCallback;
 
+			cache.name = new Wrap(html, cls);
+			const tmp = new Function('', `return \`${html}\``);
+
 			cls.prototype.connectedCallback = function() {
-				this.innerHTML = this.render;
+				this.connectedWillCallback();
+				this.innerHTML = '';
+				this.appendChild(cache.name.html(this));
 				connectedCallback.call(this);
 			};
 
@@ -21,7 +28,7 @@ class Native {
 
 			// debugger
 
-			cls = new cls();
+			// cls = new cls();
 
 			// document.registerElement(name, cls);
 			// var md = new cls();
