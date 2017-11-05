@@ -1,7 +1,7 @@
 
 const listener = 'n\-on:';
 const className = 'n\-class';
-const nameMainContent = 'app\-main';
+const nameMainContent = 'src\-main';
 const scriptStandard = 'es6';
 
 
