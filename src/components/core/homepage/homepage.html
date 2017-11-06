@@ -1,3 +1,13 @@
-<div class="homepage" :click="this.func" atrr=${this.counter}>
-    qwerty ${this.counter}
+<div class="homepage" atrr=${this.counter}>
+    qwerty ${this.state.counter}
+</div>
+
+<div class="content">
+    <ul :click="this.handleHover">
+        ${this.data.map((index) =>
+            `<li>
+                <app-content data-index=${index}></app-content>
+            </li>`
+        ).join('')}
+    </ul>
 </div>

@@ -10,12 +10,6 @@ module.exports = {
 		path: path.resolve(__dirname, './public'),
 		publicPath: '/'
 	},
-	devtool: 'inline-source-map',
-	devServer: {
-		contentBase: './public',
-		inline: true,
-		hot: true
-	},
 	plugins: [
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),

@@ -3,22 +3,22 @@ import Native from './Native';
 import config from './config';
 
 export class Wrap {
-	constructor(html, cls) {
+	constructor(html,cls) {
 		this._html = html;
-		this.cls = cls;
+		this._cls = cls;
 	}
 
 	html(self) {
-		if (this.tmp) {
-			return this.tmp;
-		}
-		const tmp = document.createElement('template');
+		this.parent = self;
+		self.innerHTML = '';
+
+		const tmp = self.createShadowRoot(); //{mode: (self.shadowRoot) ? self.shadowRoot : 'closed'}
 		tmp.innerHTML = new Function('', `return \`${this._html}\``).call(self);
-		this.methods = Wrap.parseMethods(tmp.content, self);
+		this.methods = Wrap.parseMethods(tmp, self, this._cls);
 		Wrap.eventListener(this.methods);
 		this.tmp = tmp;
-		// console.log(methods)
-		return this.tmp.content;
+
+		return this.tmp;
 	}
 
 
@@ -26,15 +26,12 @@ export class Wrap {
 
 	}
 
-	render(key) {
-
-		if (!this.properties[key]) return;
-
-		for (let [, parse] of this.properties[key].tmp) {
-			Virtual.eventListener(parse.methods, false);
-			parse.parent.innerHTML = parse.tmp;
-			Virtual.eventListener(parse.methods);
-		}
+	render() {
+		Wrap.eventListener(this.methods, false);
+		// const tmp = this.parent.createShadowRoot(); //{mode: (self.shadowRoot) ? self.shadowRoot : 'closed'}
+		this.tmp.innerHTML = new Function('', `return \`${this._html}\``).call(this.parent);
+		this.methods = Wrap.parseMethods(this.tmp, this.parent, this._cls);
+		Wrap.eventListener(this.methods);
 	}
 
 
@@ -50,14 +47,13 @@ export class Wrap {
 		const funcListener = (isAddEvent) ? 'addEventListener' : 'removeEventListener';
 		for (let event of methods) {
 			for (let [key, obj] of event) {
-				console.log(obj, obj.func, key)
 				obj.dom[funcListener](key, obj.func, false);
 			}
 		}
 	}
 
 
-	static parseMethods(el, cls) {
+	static parseMethods(el, cls, constructorCls) {
 
 		const result = [];
 
@@ -67,19 +63,27 @@ export class Wrap {
 
 				if (attr.name.startsWith(config.listener)) {
 
-					// const args = attr.value.split(',').map(str => str.trim());
+					const staticName = attr.value.replace(constructorCls.name+'.', '');
 					let funcName = attr.value.replace('this.', '');
 					let func;
 
-					if (cls && cls[funcName]) {
+					if (cls && (cls[funcName] || constructorCls[staticName])) {
+						let funcRun;
+						let self;
+						if (cls[funcName]) {
+							self = cls;
+							funcRun = cls[funcName];
+						} else {
+							funcRun = constructorCls[staticName];
+						}
 						func = (e) => {
-							cls[funcName].call(cls, e);
+							funcRun.call(self, e);
 						}
 					} else {
-						func = new Function('Native', attr.value).bind(Native);
+						console.error("Didn't find a func: ", funcName);
 					}
 
-					result.push(new Map([[attr.name.replace(config.listener, ''), { func: func, dom: dom }]]));
+					result.push(new Map([[attr.name.replace(config.listener, ''), { func, dom }]]));
 					break;
 				}
 

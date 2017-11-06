@@ -1,38 +1,15 @@
 import Native from './libs/native/Native';
 
-import homepage from './components/core/homepage/homepage.html';
+import index from './index.html';
+import Homepage from './components/core/homepage/homepage';
 
 class App extends HTMLElement {
-	constructor() {
-		super();
-		this.counter = 10
-		// this.attachShadow({mode: 'open'});
-	}
 
-	connectedWillCallback() {
-		console.log('connectedWillCallback');
+	render() {
+		return {
+			'app-homepage' : Homepage
+		}
 	}
-
-	connectedCallback() {
-		console.log('connectedCallback');
-	}
-
-	disconnectedCallback() {
-		console.log('disconnectedCallback');
-	}
-
-	attributeChangedCallback(name, prevValue, newValue, namespace) {
-		console.log(`attributeChangedCallback(${name}, ${prevValue}, ${newValue}, ${namespace})`);
-	}
-
-	adoptedCallback(oldDocument, newDocument) {
-		console.log(`adoptedCallback(${oldDocument}, ${newDocument})`)
-	}
-
-	func() {
-		console.log("qwertyuiop")
-	}
-
 }
 
-Native.render(homepage, 'app-main', App);
+Native.render(index, 'app-main', App);
