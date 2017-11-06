@@ -12,7 +12,8 @@ export class Wrap {
 		this.parent = self;
 		self.innerHTML = '';
 
-		const tmp = self.createShadowRoot(); //{mode: (self.shadowRoot) ? self.shadowRoot : 'closed'}
+		// self.attachShadow({mode: (self.shadowRoot) ? self.shadowRoot : 'open'});
+		const tmp = self.attachShadow({mode: (self.shadowRoot) ? self.shadowRoot : 'closed'});
 		tmp.innerHTML = new Function('', `return \`${this._html}\``).call(self);
 		this.methods = Wrap.parseMethods(tmp, self, this._cls);
 		Wrap.eventListener(this.methods);
