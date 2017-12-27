@@ -10,6 +10,7 @@ class Prototype {
 
 		cls.prototype.connectedCallback = function() {
 			!this.connectedWillCallback || this.connectedWillCallback();
+			this.childrenComponents = [];
 			const shadow = cache[this.tagName].html(this);
 			Prototype._children(this, shadow);
 			!connectedCallback || connectedCallback.call(this);
@@ -35,8 +36,9 @@ class Prototype {
 	static _children(parent, dom) {
 		const components = (parent.render) ? parent.render() : {};
 		for (let name in components) {
-			dom.querySelectorAll(name).forEach(() => {
-				Native.render(components[name].html, name, components[name].class);
+			dom.querySelectorAll(name).forEach((item) => {
+				parent.childrenComponents.push(item);
+				Native.render(components[name].html, name, components[name].class, parent);
 			});
 		}
 	}

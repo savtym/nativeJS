@@ -4,9 +4,9 @@ class Content extends HTMLElement {
 
 
 
-	connectedCallback() {
-		console.log('connectedCallback Content');
-	}
+	// connectedCallback() {
+	// 	console.log('connectedCallback Content');
+	// }
 }
 
 export default {

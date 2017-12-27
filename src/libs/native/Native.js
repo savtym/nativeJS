@@ -5,7 +5,7 @@ import cache from './Cache';
 class Native {
 
 
-	static render(html, name, cls) {
+	static render(html, name, cls, parent) {
 		if (html && name && cls) {
 			if (!cache[name.toUpperCase()]) {
 				Prototype.init(cls);
@@ -13,7 +13,7 @@ class Native {
 				customElements.define(name, cls);
 			} else {
 				const k = customElements.get(name);
-				const l = new k();
+				new k();
 			}
 
 		}

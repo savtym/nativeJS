@@ -1,4 +1,5 @@
 import Content from './content/app-content';
+import Counter from './counter/app-counter';
 import homepage from './homepage.html';
 
 class Homepage extends HTMLElement {
@@ -7,9 +8,16 @@ class Homepage extends HTMLElement {
 		super();
 		this.data = [];
 
-		for (let i =0;i< 3; i++) {
+		// const start = Date.now();
+		// let str = '';
+		for (let i =0;i< 30000; i++) {
 			this.data.push(i)
+			// str += `qwertyjhsdfghdhj ${this.data} dsgd`;
 		}
+		// const end = performance.now() - start;
+		// console.log(end);
+
+
 
 		this.state = {
 			counter: 0
@@ -18,37 +26,17 @@ class Homepage extends HTMLElement {
 
 	handleHover(e) {
 		// console.log(++this.counter);
-		this.setState({counter: e.target.dataset.index});
-		console.log(this.state)
+		// console.log(this.childrenComponents);
+		// this.setState({counter: e.target.dataset.index});
+		const k = this.childrenComponents.filter((a) => a.tagName === 'APP-COUNTER');
+		k[0].setState({ counter: e.target.dataset.index });
 	}
 
-	connectedWillCallback() {
-		console.log('connectedWillCallback');
-	}
-
-	connectedCallback() {
-		console.log('connectedCallback');
-	}
-
-	disconnectedCallback() {
-		console.log('disconnectedCallback');
-	}
-
-	attributeChangedCallback(name, prevValue, newValue, namespace) {
-		console.log(`attributeChangedCallback(${name}, ${prevValue}, ${newValue}, ${namespace})`);
-	}
-
-	adoptedCallback(oldDocument, newDocument) {
-		console.log(`adoptedCallback(${oldDocument}, ${newDocument})`)
-	}
-
-	func() {
-		console.log("qwertyuiop")
-	}
 
 	render() {
 		return {
-			'app-content' : Content
+			'app-content' : Content,
+			'app-counter': Counter
 		}
 	}
 }

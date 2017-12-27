@@ -1,12 +1,14 @@
-<div class="homepage" atrr=${this.counter}>
-    qwerty ${this.state.counter}
-</div>
+
+<app-counter></app-counter>
 
 <div class="content">
     <ul :click="this.handleHover">
         ${this.data.map((index) =>
             `<li>
-                <app-content data-index=${index}></app-content>
+                <app-content
+                    counter="0"
+                    data-index=${index}
+                ></app-content>
             </li>`
         ).join('')}
     </ul>

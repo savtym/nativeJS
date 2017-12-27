@@ -9,15 +9,16 @@ export class Wrap {
 	}
 
 	html(self) {
-		this.parent = self;
 		self.innerHTML = '';
+		const props = Wrap.getProps(self, this._cls);
 
-		// self.attachShadow({mode: (self.shadowRoot) ? self.shadowRoot : 'open'});
 		const tmp = self.attachShadow({mode: (self.shadowRoot) ? self.shadowRoot : 'closed'});
 		tmp.innerHTML = new Function('', `return \`${this._html}\``).call(self);
 		this.methods = Wrap.parseMethods(tmp, self, this._cls);
 		Wrap.eventListener(this.methods);
+
 		this.tmp = tmp;
+		this.parent = self;
 
 		return this.tmp;
 	}
@@ -29,7 +30,6 @@ export class Wrap {
 
 	render() {
 		Wrap.eventListener(this.methods, false);
-		// const tmp = this.parent.createShadowRoot(); //{mode: (self.shadowRoot) ? self.shadowRoot : 'closed'}
 		this.tmp.innerHTML = new Function('', `return \`${this._html}\``).call(this.parent);
 		this.methods = Wrap.parseMethods(this.tmp, this.parent, this._cls);
 		Wrap.eventListener(this.methods);
@@ -38,6 +38,24 @@ export class Wrap {
 
 	destructor() {
 		Virtual.eventListener(this.methods, false);
+	}
+
+
+	/*
+			get Attributes => props
+	*/
+
+	static getProps(dom, constructorCls) {
+		for (let attr of dom.attributes) {
+			const staticName = attr.value.replace(constructorCls.name+'.', '');
+			let funcName = attr.value.replace('this.', '');
+
+			if (dom[funcName]) {
+
+			} else if (constructorCls[staticName]){
+
+			}
+		}
 	}
 
 	/*
